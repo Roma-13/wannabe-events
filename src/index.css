@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'ArchyEDT-Bold';
+  src: url('/fonts/archyedt-bold-webfont.woff2') format('woff2'),
+       url('/fonts/archyedt-bold-webfont.woff') format('woff'),
+       url('/fonts/archyedt-bold-webfont.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  html {
+    background-color: #130409;
+    color: #FFFFFF;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+}
+
+/* ArchyEDT-Bold lacks U+20BE Lari symbol, so render ₾ cleanly in matching bold Noto Sans Georgian */
+.gel-sign {
+  font-family: 'Noto Sans Georgian', sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  display: inline-block;
+  margin-left: 0.1em;
+}
+
+/* Nocturnal burgundy-black frosted glass surfaces */
+.glass-card {
+  background-color: rgba(29, 7, 15, 0.8);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1rem;
+}
+
+.pill-yellow {
+  @apply bg-poster-yellow text-[#130409] font-display leading-snug rounded-full transition-all duration-200 hover:bg-poster-yellow-bright active:scale-[0.98] whitespace-nowrap;
+}
+
+.pill-glass {
+  @apply bg-white/5 border border-white/20 text-white font-display leading-snug rounded-full transition-all duration-200 hover:border-poster-yellow hover:text-poster-yellow whitespace-nowrap;
+}
+
+/* Smooth ticker marquee */
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 38s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+}
+
+/* Print only E-Ticket content cleanly when clicking "ბეჭდვა" */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .printable-ticket,
+  .printable-ticket * {
+    visibility: visible;
+  }
+  .printable-ticket {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    box-shadow: none !important;
+  }
+}
